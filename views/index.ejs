@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calendar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white">
+    <div class="min-h-screen flex flex-col items-center">
+        <%- include('partials/navbar.ejs') %>
+        
+        <!-- Calendar Header -->
+        <h1 class="text-center text-3xl font-semibold mt-6">
+            Calendar for <%= calendarData.year %>, 
+            <span class="text-indigo-400">
+                <%= new Date(calendarData.year, calendarData.month).toLocaleString('default', { month: 'long' }) %>
+            </span>
+        </h1>
+
+        <!-- Calendar Table -->
+        <div class="w-full max-w-4xl mt-8 p-4 bg-gray-800 rounded-lg shadow-lg">
+            <table class="w-full table-auto border-collapse">
+                <!-- Table Header -->
+                <thead>
+                    <tr class="bg-gray-700 text-indigo-400">
+                        <th class="p-2 border border-gray-600">Sun</th>
+                        <th class="p-2 border border-gray-600">Mon</th>
+                        <th class="p-2 border border-gray-600">Tue</th>
+                        <th class="p-2 border border-gray-600">Wed</th>
+                        <th class="p-2 border border-gray-600">Thu</th>
+                        <th class="p-2 border border-gray-600">Fri</th>
+                        <th class="p-2 border border-gray-600">Sat</th>
+                    </tr>
+                </thead>
+                <!-- Table Body -->
+                <tbody>
+                    <% let day = 1; for (let i = 0; i < 6; i++) { %>
+                        <tr>
+                            <% for (let j = 0; j < 7; j++) { %>
+                                <% if (i === 0 && j < calendarData.firstDay || day > calendarData.daysInMonth) { %>
+                                    <td class="p-4 border border-gray-600 bg-gray-700"></td>
+                                <% } else { %>
+                                    <td class="p-4 border border-gray-600 bg-gray-700 text-center">
+                                        <a href="/day/<%= day %>" 
+                                           class="text-indigo-400 hover:text-indigo-300">
+                                            <%= day++ %>
+                                        </a>
+                                    </td>
+                                <% } %>
+                            <% } %>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        
+    </div>
+</body>
+
+</html>

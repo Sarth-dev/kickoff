@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Events for <%= dateKey %></title>
+</head>
+<body class="bg-gray-900 text-white">
+    <%- include('partials/navbar.ejs') %>
+    <div class="w-full min-h-screen p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-semibold">
+                Events for <span class="text-indigo-400"><%= dateKey %></span>
+            </h1>
+            <a class="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 rounded-md shadow-md transition duration-200" 
+               href="/event/new/<%= dateKey.split('-')[2] %>">+ Add Event</a>
+        </div>
+        
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+            <% if (events.length > 0) { %>
+                <ul class="space-y-4">
+                    <% events.forEach((event, index) => { %>
+                        <li class="flex items-center justify-between bg-gray-700 p-4 rounded-md">
+                            <div>
+                                <h2 class="text-lg font-medium"><%= event.title %></h2>
+                                <p class="text-sm text-gray-400"><%= event.description %></p>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <a href="/event/edit/<%= dateKey.split('-')[2] %>/<%= index %>" 
+                                   class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm transition duration-200">
+                                   Edit
+                                </a>
+                                <form action="/event/delete/<%= dateKey.split('-')[2] %>/<%= index %>" method="POST">
+                                    <button type="submit" 
+                                            class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded-md text-sm transition duration-200">
+                                            Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } else { %>
+                <p class="text-gray-400">No events for this day. Use the "Add Event" button to create one!</p>
+            <% } %>
+        </div>
+
+        <div class="mt-6">
+            <a href="/" class="text-sm text-gray-400 hover:text-gray-200 transition duration-200">← Back to Calendar</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>
+        <%= event ? 'Edit' : 'Create' %> Event
+    </title>
+</head>
+
+<body>
+    <div class="w-full h-full min-h-screen bg-gray-900 text-white flex items-center justify-center p-6">
+        <div class="w-full max-w-md bg-gray-800 rounded-lg shadow-lg p-6">
+            <h1 class="text-2xl font-semibold mb-4 text-center">
+                <%= event ? 'Edit' : 'Create' %> Event for <span class="text-indigo-400"><%= dateKey %></span>
+            </h1>
+            <form class="flex flex-col gap-4" action="/event/<%= event ? 'edit' : 'new' %>/<%= dateKey.split('-')[2] %><%= event ? `/${index}` : '' %>" method="POST">
+               
+                <div>
+                    <label class="block text-sm font-medium mb-1" for="title">Title:</label>
+                    <input type="text" id="title" name="title" class="w-full p-2 rounded-md bg-gray-700 text-white focus:ring-2 focus:ring-indigo-400 focus:outline-none" value="<%= event ? event.title : '' %>" required>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1" for="description">Description:</label>
+                    <textarea id="description" name="description" rows="4" class="w-full p-2 rounded-md bg-gray-700 text-white focus:ring-2 focus:ring-indigo-400 focus:outline-none" required><%= event ? event.description : '' %></textarea>
+                </div>
+               
+                <div class="flex justify-between items-center">
+                    <a href="/day/<%= dateKey.split('-')[2] %>" class="text-sm text-gray-400 hover:text-gray-200">Cancel</a>
+                    <button type="submit" class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-md shadow-sm transition duration-150 ease-in-out">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Events</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white">
+    <div class="min-h-screen flex flex-col items-center">
+        <%- include('partials/navbar.ejs') %>
+        
+        <!-- Page Header -->
+        <h1 class="text-3xl font-semibold mt-6">All Events</h1>
+        <p class="text-gray-400">View, edit, or delete events from your calendar.</p>
+
+        <!-- Event List -->
+        <div class="w-full max-w-6xl mt-8 p-4 bg-gray-800 rounded-lg shadow-lg">
+            <% if (allEvents.length > 0) { %>
+                <table class="w-full table-auto border-collapse">
+                    <!-- Table Header -->
+                    <thead>
+                        <tr class="bg-gray-700 text-white">
+                            <th class="border px-4 py-2">Date</th>
+                            <th class="border px-4 py-2">Title</th>
+                            <th class="border px-4 py-2">Description</th>
+                            <th class="border px-4 py-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% allEvents.forEach(({ dateKey, events }) => { %>
+                            <% events.forEach((event, index) => { %>
+                                <tr class="hover:bg-gray-600 text-white">
+                                    <td class="border px-4 py-2"><%= dateKey %></td>
+                                    <td class="border px-4 py-2"><%= event.title %></td>
+                                    <td class="border px-4 py-2"><%= event.description %></td>
+                                    <td class="border px-4 py-2 flex gap-2">
+                                        <!-- Edit Button -->
+                                        <a href="/event/edit/<%= dateKey.split('-')[2] %>/<%= index %>" 
+                                           class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded">
+                                           Edit
+                                        </a>
+                                        <!-- Delete Button -->
+                                        <form action="/event/delete/<%= dateKey.split('-')[2] %>/<%= index %>" method="POST" style="display:inline;">
+                                            <button type="submit" 
+                                                    class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p class="text-white text-center">No events found.</p>
+            <% } %>
+        </div>
+        
+        
+
+        <!-- Back to Calendar Link -->
+        <div class="mt-6">
+            <a href="/" class="text-sm text-gray-400 hover:text-gray-200 transition duration-200">← Back to Calendar</a>
+        </div>
+    </div>
+</body>
+
+</html>
